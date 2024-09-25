@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const Comment = ({ comment,userName }) => {
+const Comment = ({ comment, userName,socket }) => {
   const [reply, setReply] = useState("");
   const [showReplies, setShowReplies] = useState(false);
   const [replies, setReplies] = useState(comment.replies || []); // Initialize with existing replies
-  const socket = io("http://localhost:5000");
+  // const socket = io("http://localhost:5000");
 
-  console.log("CommentID : ", comment._id);
 
   const handleReply = async (e) => {
     e.preventDefault();
@@ -42,7 +41,14 @@ const Comment = ({ comment,userName }) => {
     };
   }, []);
   return (
-    <div style={{ marginBottom: "1em" }}>
+    <div
+      style={{
+        marginBlock: "1em",
+        backgroundColor: "#dbe3ea",
+        padding: "20px",
+        borderRadius: "15px",
+      }}
+    >
       <div>
         <strong>{comment.username}</strong>: {comment.text}
       </div>
@@ -58,7 +64,7 @@ const Comment = ({ comment,userName }) => {
               </div>
             ))}
           </div>
-          <form onSubmit={handleReply}>
+          <form style={{ marginLeft: "1em" }} onSubmit={handleReply}>
             <input
               type="text"
               value={reply}
@@ -69,7 +75,6 @@ const Comment = ({ comment,userName }) => {
           </form>
         </div>
       )}
-      <hr />
     </div>
   );
 };
