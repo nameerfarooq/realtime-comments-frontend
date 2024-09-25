@@ -3,14 +3,14 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import Comment from "./Comment";
 
-const Comments = ({ tokenId, userName }) => {
+const Comments = ({ tokenId, username }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     // Initialize socket connection
-    const newSocket = io("http://localhost:5000", {
+    const newSocket = io(import.meta.env.VITE_BASEURL, {
       transports: ["websocket"], // Ensure WebSocket connection
     });
     setSocket(newSocket);
@@ -25,7 +25,7 @@ const Comments = ({ tokenId, userName }) => {
     if (tokenId && socket) {
       // Fetch comments from API
       axios
-        .get(`http://localhost:5000/comments/${tokenId}`)
+        .get(`${import.meta.env.VITE_BASEURL}/comments/${tokenId}`)
         .then((res) => setComments(res.data));
 
       // Listen for new comments from Socket.io
@@ -42,15 +42,17 @@ const Comments = ({ tokenId, userName }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const commentData = { tokenId, username: userName, text: newComment };
+    const commentData = { tokenId, username, text: newComment };
 
     // Post new comment to API
-    axios.post("http://localhost:5000/comments", commentData).then((res) => {
-      setNewComment("");
-      if (socket) {
-        socket.emit("comment", res.data); // Emit new comment to server
-      }
-    });
+    axios
+      .post(`${import.meta.env.VITE_BASEURL}/comments`, commentData)
+      .then((res) => {
+        setNewComment("");
+        if (socket) {
+          socket.emit("comment", res.data); // Emit new comment to server
+        }
+      });
   };
 
   return (
@@ -79,7 +81,7 @@ const Comments = ({ tokenId, userName }) => {
           <Comment
             key={comment._id}
             comment={comment}
-            userName={userName}
+            username={username}
             socket={socket}
           />
         ))}

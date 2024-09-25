@@ -3,17 +3,20 @@ import Comments from "./components/Comments";
 import axios from "axios";
 
 function App() {
-  const tokenId = "66f456f83cc6c2be6e3fbd13"; // Example tokenId
-  const [userName, setuserName] = useState("user1");
+  const tokenId = "66f47cd3a6ed8bcc7b2880a2"; // Example tokenId
+  const [username, setusername] = useState("");
 
-  //code for creating new Tokens in db
+  // code for creating new Tokens in db
+
   // const createToken = () => {
   //   const tokenData = { title: "ETH", content: "ETHEREUM" };
 
   //   // Post new token to API
-  //   axios.post("http://localhost:5000/tokens", tokenData).then((res) => {
-  //     console.log("TOKEN CREATION :", res);
-  //   });
+  //   axios
+  //     .post(`${import.meta.env.VITE_BASEURL}/tokens`, tokenData)
+  //     .then((res) => {
+  //       console.log("TOKEN CREATION :", res);
+  //     });
   // };
   // useEffect(() => {
   //   createToken();
@@ -26,13 +29,13 @@ function App() {
         <input
           type="text"
           placeholder="Enter your name"
-          onChange={(e) => setuserName(e.target.value)}
+          onChange={(e) => setusername(e.target.value)}
         />
       </div>
       <br />
       <br />
       <hr />
-      <Comments tokenId={tokenId} userName={userName} />
+      {username && <Comments tokenId={tokenId} username={username} />}
     </div>
   );
 }
