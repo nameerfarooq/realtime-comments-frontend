@@ -3,19 +3,23 @@ import Comments from "./components/Comments";
 import axios from "axios";
 
 function App() {
-  const tokenId = "66f4833199c23b4687719df0"; // Example tokenId
+  const tokenAddress = "0ww0B295669a9FD93d5F28D9Ec85E40f4cb697BAe"; // Example tokenId
   const [username, setusername] = useState("");
 
   // code for creating new Tokens in db
 
   // const createToken = () => {
-  //   const tokenData = { title: "ETH", content: "ETHEREUM" };
+  //   const tokenData = {
+  //     tokenName: "ETH",
+  //     tokenAddress: "0ww0B295669a9FD93d5F28D9Ec85E40f4cb697BAe",
+  //     creatorAddress: "abc",
+  //   };
 
   //   // Post new token to API
   //   axios
   //     .post(`${import.meta.env.VITE_BASEURL}/tokens`, tokenData)
   //     .then((res) => {
-  //       console.log("TOKEN CREATION :", res.data._id);
+  //       console.log("TOKEN CREATION :", res.data.tokenAddress);
   //     });
   // };
   // useEffect(() => {
@@ -23,7 +27,7 @@ function App() {
   // }, []);
   return (
     <div className="App">
-      <h3>Token id : {tokenId}</h3>
+      <h3>tokenAddress is : {tokenAddress}</h3>
       <div>
         <label htmlFor="">Enter your name </label>
         <input
@@ -35,7 +39,7 @@ function App() {
       <br />
       <br />
       <hr />
-      {username && <Comments tokenId={tokenId} username={username} />}
+      {username && <Comments tokenAddress={tokenAddress} username={username} />}
     </div>
   );
 }

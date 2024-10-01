@@ -3,7 +3,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import Comment from "./Comment";
 
-const Comments = ({ tokenId, username }) => {
+const Comments = ({ tokenAddress, username }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [socket, setSocket] = useState(null);
@@ -22,10 +22,10 @@ const Comments = ({ tokenId, username }) => {
   }, []); // Run once when the component mounts
 
   useEffect(() => {
-    if (tokenId && socket) {
+    if (tokenAddress && socket) {
       // Fetch comments from API
       axios
-        .get(`${import.meta.env.VITE_BASEURL}/comments/${tokenId}`)
+        .get(`${import.meta.env.VITE_BASEURL}/comments/${tokenAddress}`)
         .then((res) => setComments(res.data));
 
       // Listen for new comments from Socket.io
@@ -38,11 +38,11 @@ const Comments = ({ tokenId, username }) => {
         socket.off("comment");
       };
     }
-  }, [tokenId, socket]); // Re-run when tokenId or socket is updated
+  }, [tokenAddress, socket]); // Re-run when tokenId or socket is updated
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const commentData = { tokenId, username, text: newComment };
+    const commentData = { tokenAddress, username, text: newComment };
 
     // Post new comment to API
     axios
